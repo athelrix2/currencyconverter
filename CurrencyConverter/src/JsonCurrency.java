@@ -3,6 +3,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +21,7 @@ public class JsonCurrency {
     private URL url;
     private String result = "";
     private final String URL="http://api.fixer.io/latest";
-    private JSONArray cur;
+    private JSONObject cur;
     private JSONObject parser;
     private ArrayList<Currency> money= new ArrayList<Currency>();
     private String base;
@@ -62,26 +64,20 @@ public class JsonCurrency {
     	
         parser = new JSONObject(result);
         base = parser.getString("base");
-        cur = parser.getJSONArray("rates");
+        cur = parser.getJSONObject("rates");
+        
+        money.add(new Currency(base,1.0));
         
         int i=0;
         
-        while(!cur.getString(i).equals(null)){
-        	
-        	money.add(new Currency(cur.getString(i),cur.getDouble(i)));
+        Iterator keys= cur.keys();
+        
+        while(keys.hasNext()){
+        	String key=(String)keys.next();
+        	money.add(new Currency(key,cur.getDouble(key)));
         }
         
-        i=0;
-        
-        while(!money.get(i).getName().equals(base)){
-        	
-        	i++;
-        }
-       
-        for(Currency element:money){
-        	
-    	   element.setBase(money.get(i).getRate());
-        }
+
     }
     public ArrayList<Currency> getList(){
     	

@@ -7,5 +7,4 @@ public interface CurrencyInterface {
 	
 	double convert(double rate);
 	
-	void setBase(double base);
 }

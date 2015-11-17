@@ -2,7 +2,7 @@
 public class Currency implements CurrencyInterface{
 	
 	private String name;
-	private double conversionRate,baseNumber;
+	private double conversionRate;
 	
 	public Currency(String name, double conversionRate){
 		
@@ -22,10 +22,6 @@ public class Currency implements CurrencyInterface{
 
 	public double convert(double rate) {
 		
-		return conversionRate/baseNumber*rate;
-	}
-	public void setBase(double base){
-		
-		this.baseNumber = base;
+		return rate/conversionRate;
 	}
 }
